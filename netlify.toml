@@ -1,0 +1,117 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["public/data/sports_streams.json"]
+
+# 1. API & Serverless Functions (MUST run before SPA fallback)
+[[redirects]]
+  from = "/api/search-grounding"
+  to = "/.netlify/functions/search-grounding"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/sitemap-live.xml"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/player/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/js/bundle.js"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/js/bundle-jw.js"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/js/xk7m9p2.js"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/js/adgeo.js"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/rss"
+  to = "/rss.xml"
+  status = 301
+  force = true
+
+# 2. SPA Fallback (all frontend routes)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 3. Security, Iframe & Cache Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "ALLOWALL"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+
+[[headers]]
+  for = "/embed/*"
+  [headers.values]
+    X-Frame-Options = "ALLOWALL"
+    Referrer-Policy = "no-referrer-when-downgrade"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sitemap*.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600, s-maxage=3600"
+
+[[headers]]
+  for = "/rss.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600, s-maxage=3600"
+
+[[headers]]
+  for = "/feed.xml"
+  [headers.values]
+    Content-Type = "application/rss+xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600, s-maxage=3600"
+
+[[headers]]
+  for = "/atom.xml"
+  [headers.values]
+    Content-Type = "application/atom+xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600, s-maxage=3600"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

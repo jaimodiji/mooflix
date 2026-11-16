@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WW14QF05PP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WW14QF05PP');
+  </script>
+
+  <meta charset="UTF-8">
+  <script>
+    // Suppress HMR WebSocket disconnected errors, extension errors, and cross-origin Script error in iframe preview environment
+    (function suppressEnvironmentWarnings() {
+      // Neutralize Vite HMR WebSocket connection attempts when running inside iframe preview
+      if (typeof window !== 'undefined' && window.WebSocket) {
+        var NativeWS = window.WebSocket;
+        window.WebSocket = function(url, protocols) {
+          if (typeof url === 'string' && (url.includes('ais-dev') || url.includes('/@vite/') || url.includes('vite') || url.includes('3000'))) {
+            var listeners = {};
+            return {
+              readyState: 3, // CLOSED
+              send: function() {},
+              close: function() {},
+              addEventListener: function(type, cb) {
+                if (!listeners[type]) listeners[type] = [];
+                listeners[type].push(cb);
+              },
+              removeEventListener: function() {},
+              dispatchEvent: function() { return false; },
+              onopen: null,
+              onmessage: null,
+              onerror: null,
+              onclose: null,
+            };
+          }
+          return new NativeWS(url, protocols);
+        };
+        window.WebSocket.prototype = NativeWS.prototype;
+      }
+
+      var origError = console.error;
+      console.error = function() {
+        var str = '';
+        for (var i = 0; i < arguments.length; i++) {
+          var a = arguments[i];
+          str += ' ' + (typeof a === 'string' ? a : (a && a.message ? a.message : (a && a.stack ? a.stack : '')));
+        }
+        if (
+          str.includes('[vite]') ||
+          str.includes('WebSocket') ||
+          str.includes('interrupted by a call to pause') ||
+          str.includes('The play() request was interrupted') ||
+          str.includes('chrome:') ||
+          str.includes('chrome-extension') ||
+          str.includes('call method') ||
+          str.includes('ResizeObserver') ||
+          str.includes('Script error.')
+        ) {
+          return;
+        }
+        return origError.apply(console, arguments);
+      };
+
+      var origWarn = console.warn;
+      console.warn = function() {
+        var str = '';
+        for (var i = 0; i < arguments.length; i++) {
+          var a = arguments[i];
+          str += ' ' + (typeof a === 'string' ? a : (a && a.message ? a.message : ''));
+        }
+        if (
+          str.includes('[vite]') ||
+          str.includes('WebSocket') ||
+          str.includes('chrome:') ||
+          str.includes('chrome-extension') ||
+          str.includes('call method')
+        ) {
+          return;
+        }
+        return origWarn.apply(console, arguments);
+      };
+
+      window.addEventListener('error', function(e) {
+        if (!e) return;
+        var msg = e.message || '';
+        var file = e.filename || '';
+        if (
+          msg === 'Script error.' ||
+          msg.includes('WebSocket') ||
+          msg.includes('interrupted by a call to pause') ||
+          msg.includes('The play() request was interrupted') ||
+          msg.includes('ResizeObserver') ||
+          msg.includes('chrome:') ||
+          msg.includes('chrome-extension') ||
+          msg.includes('call method') ||
+          file.includes('@vite/client') ||
+          file.includes('chrome-extension')
+        ) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return true;
+        }
+      }, true);
+
+      window.onerror = function(msg, url, lineNo, columnNo, error) {
+        var msgStr = typeof msg === 'string' ? msg : '';
+        var urlStr = typeof url === 'string' ? url : '';
+        if (
+          msgStr === 'Script error.' || 
+          !url || 
+          msgStr.includes('WebSocket') || 
+          msgStr.includes('chrome:') || 
+          msgStr.includes('chrome-extension') || 
+          msgStr.includes('call method') ||
+          urlStr.includes('chrome-extension') ||
+          urlStr.includes('@vite/client')
+        ) {
+          return true;
+        }
+      };
+
+      window.addEventListener('unhandledrejection', function(e) {
+        var reasonMsg = e && e.reason && typeof e.reason.message === 'string' ? e.reason.message : '';
+        if (
+          reasonMsg.includes('WebSocket') || reasonMsg.includes('interrupted by a call to pause') || reasonMsg.includes('The play() request was interrupted') || 
+          reasonMsg.includes('ResizeObserver') || 
+          reasonMsg.includes('chrome:') || 
+          reasonMsg.includes('chrome-extension') ||
+          reasonMsg.includes('call method')
+        ) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }, true);
+    })();
+
+    // Anti-Ad & Redirect Shield: Strictly block known ad domains and unwanted popups
+    (function initAntiRedirectShield() {
+      var AD_PATTERNS = [
+        'auctionr.org',
+        'heiressnicholasfitful.com',
+        'highperformanceformat.com',
+        'effectivecpmnetwork.com',
+        '61b794de77f1924867615eebe54bb93b',
+        'quge5',
+        'capitalhospitals',
+        'optimserve',
+        'adsterra',
+        'monetag',
+        'alwingulla',
+        'wpadmngr',
+        'aarems',
+        'bancadeltempoidea',
+        'magsrv',
+        'ariososhands'
+      ];
+
+      function isAdUrl(u) {
+        if (!u) return false;
+        var s = String(u).toLowerCase();
+        for (var i = 0; i < AD_PATTERNS.length; i++) {
+          if (s.indexOf(AD_PATTERNS[i]) !== -1) return true;
+        }
+        return false;
+      }
+
+      var origOpen = window.open;
+      window.open = function(url, target, features) {
+        var urlStr = url ? String(url) : '';
+        if (isAdUrl(urlStr)) {
+          return null;
+        }
+        return origOpen.call(window, url, target, features);
+      };
+
+      document.addEventListener('click', function(e) {
+        var t = e.target;
+        var a = t && t.closest ? t.closest('a') : null;
+        if (a && a.href && isAdUrl(a.href)) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      }, true);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#02040a">
+  <meta name="google-site-verification" content="WrmlaHvaWEywjA0yP9JHvnz_8EXLkWkSe9jYy1UbRt4" />
+
+  <title>MooFlix — Watch Free Movies, TV Series & Live Sports in HD</title>
+  <meta name="description" content="Stream trending movies, web series, anime, and live sports on MooFlix in Ultra HD 4K with zero ads and automatic multi-server player failover.">
+  <meta name="keywords" content="mooflix, mooflix.online, mooflix official, mooflix movies, mooflix web series, mooflix live sports, ad free movies online, free movies hd, stream movies free, mooflix watch free">
+  
+  <!-- Tier-1 Global SEO Geographic Targeting (USA, UK, Canada, Germany, Australia) -->
+  <link rel="alternate" hreflang="en-US" href="https://mooflix.online/" />
+  <link rel="alternate" hreflang="en-GB" href="https://mooflix.online/" />
+  <link rel="alternate" hreflang="en-CA" href="https://mooflix.online/" />
+  <link rel="alternate" hreflang="de-DE" href="https://mooflix.online/" />
+  <link rel="alternate" hreflang="en-AU" href="https://mooflix.online/" />
+  <link rel="alternate" hreflang="x-default" href="https://mooflix.online/" />
+  <meta name="geo.region" content="US;GB;CA;DE;AU;IN">
+  <meta name="geo.placename" content="United States, United Kingdom, Canada, Germany, Australia, Global">
+  
+  <!-- High-Performance DNS Prefetch & Preconnect for 2G/3G/4G Mobile Acceleration -->
+  <link rel="dns-prefetch" href="https://image.tmdb.org">
+  <link rel="preconnect" href="https://image.tmdb.org" crossorigin>
+  <link rel="dns-prefetch" href="https://api.themoviedb.org">
+  <link rel="preconnect" href="https://api.themoviedb.org" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://streamed.pk">
+  <link rel="preconnect" href="https://streamed.pk" crossorigin>
+  <link rel="canonical" href="https://mooflix.online/">
+  <link rel="alternate" type="application/rss+xml" title="MooFlix Cinema Magazine RSS Feed" href="https://mooflix.online/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="MooFlix Atom Feed" href="https://mooflix.online/atom.xml">
+  <link rel="sitemap" type="application/xml" title="MooFlix XML Sitemap" href="https://mooflix.online/sitemap.xml">
+  
+  <!-- Search Engine Robots & Crawling Optimization -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="rating" content="general">
+  <meta name="distribution" content="global">
+  <meta name="revisit-after" content="1 days">
+  <meta name="author" content="MooFlix Entertainment">
+  <meta name="application-name" content="MooFlix">
+  <meta name="apple-mobile-web-app-title" content="MooFlix">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- OpenGraph Social Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mooflix.online/">
+  <meta property="og:site_name" content="MooFlix">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="MooFlix — Watch Free Movies, TV Series & Live Sports in HD">
+  <meta property="og:description" content="Stream trending movies, web series, anime, and live sports on MooFlix in Ultra HD 4K with zero ads and automatic multi-server player failover.">
+  <meta property="og:image" content="https://mooflix.online/icons/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MooFlix — Watch Free Movies, TV Series & Live Sports in HD">
+  <meta name="twitter:description" content="Stream trending movies, web series, anime, and live sports on MooFlix in Ultra HD 4K with zero ads and automatic multi-server player failover.">
+  <meta name="twitter:image" content="https://mooflix.online/icons/og-image.jpg">
+
+  <!-- Google Search Console Schema.org JSON-LD Structured Data with FAQPage & Breadcrumb -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://mooflix.online/#website",
+        "url": "https://mooflix.online/",
+        "name": "MooFlix",
+        "alternateName": [
+          "mooflix",
+          "mooflix.online",
+          "mooflix online",
+          "mooflix official",
+          "MooFlix Cinema",
+          "MooFlix Movies"
+        ],
+        "description": "MooFlix (mooflix.online) is the official free streaming platform for movies, web series, and anime in Ultra HD 4K.",
+        "disambiguatingDescription": "mooflix.online is the official verified platform for MooFlix, enabling instant free streaming of movies, TV shows, and anime in Ultra HD 4K without subscriptions.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "MooFlix Entertainment",
+          "url": "https://mooflix.online/"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://mooflix.online/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://mooflix.online/#app",
+        "name": "MooFlix Cinema",
+        "alternateName": ["mooflix", "mooflix.online"],
+        "applicationCategory": "EntertainmentApplication",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://mooflix.online/#organization",
+        "name": "MooFlix Entertainment",
+        "alternateName": ["MooFlix", "mooflix.online", "mooflix"],
+        "url": "https://mooflix.online/",
+        "logo": "https://mooflix.online/favicon.svg",
+        "description": "MooFlix is an independent digital cinema magazine, entertainment review portal, and metadata index providing free HD/4K movie and web series discovery.",
+        "slogan": "Stream Free Movies & TV Series in Ultra HD 4K Without Subscription",
+        "knowsAbout": [
+          "Free Movies Online",
+          "Watch TV Series Free",
+          "Japanese Anime English Sub & Dub",
+          "Hollywood Blockbusters",
+          "Bollywood Dual Audio Movies",
+          "Cinema News & Release Dates",
+          "Ultra HD 4K Video Streaming"
+        ],
+        "sameAs": [
+          "https://t.me/+ziNHhQUYib5mNjk1"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "url": "https://t.me/+ziNHhQUYib5mNjk1",
+          "contactType": "customer support & community"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://mooflix.online/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://mooflix.online/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Movies",
+            "item": "https://mooflix.online/movies"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "TV Series",
+            "item": "https://mooflix.online/series"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Anime",
+            "item": "https://mooflix.online/anime"
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "name": "Live Sports",
+            "item": "https://mooflix.online/sports"
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "name": "Upcoming Movies & News",
+            "item": "https://mooflix.online/upcoming"
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "name": "Search Cinema",
+            "item": "https://mooflix.online/search"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://mooflix.online/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is MooFlix (mooflix.online)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "MooFlix (available at https://mooflix.online) is an ad-free online movie, web series, anime, and live sports streaming platform in Ultra HD 4K with automatic multi-server player failover."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the official website for MooFlix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The official verified website of MooFlix is https://mooflix.online. Always look for the official mooflix.online domain for safe, ad-free, uninterrupted streaming."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does MooFlix have popup ads or interrupted players?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. MooFlix is 100% ad-free with smart automatic server failover (Server 1 to Server 2, Server 3, and Server 4) so playback automatically continues if one mirror is unavailable."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I watch Live Sports and TV Series on MooFlix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. MooFlix offers complete TV series seasons and episodes alongside live cricket, football, and international sports streams with ad-free multi-server playback."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to sign up or create an account on MooFlix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, MooFlix requires zero signups, passwords, or credit card details. You can instantly watch content directly in any modern web browser."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What video quality is available on MooFlix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "MooFlix streams movies, series, and live sports in Ultra HD 4K, Full HD 1080p, and HD 720p with automatic multi-server failover."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- High Speed Resource Preconnects -->
+  <link rel="preconnect" href="https://image.tmdb.org" crossorigin>
+  <link rel="dns-prefetch" href="https://image.tmdb.org">
+  <link rel="preconnect" href="https://api.themoviedb.org" crossorigin>
+  <link rel="dns-prefetch" href="https://api.themoviedb.org">
+  
+  <script>
+    window.process = { env: { NODE_ENV: 'production' } };
+  </script>
+
+  <style>
+    :root {
+      --netflix-red: #e50914;
+      --netflix-black: #141414;
+      --netflix-dark: #000000;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--netflix-dark);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      font-weight: 500;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: var(--font-sans);
+      font-weight: 700 !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.1;
+    }
+
+    /* Clean typography for metadata */
+    .font-inter {
+      font-family: var(--font-sans);
+      font-weight: 400;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #141414; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+    * { scrollbar-width: thin; scrollbar-color: #333 #141414; -webkit-tap-highlight-color: transparent; outline: none !important; }
+
+    .netflix-gradient {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.8) 100%);
+    }
+
+    .netflix-card {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      will-change: transform;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .netflix-card:hover {
+      transform: scale(1.05) translateZ(0);
+      z-index: 50;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Universal iOS Tactile Spring Animation for all website buttons */
+    button,
+    a[role="button"],
+    .ios-btn {
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+      will-change: transform;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: manipulation;
+    }
+
+    button:hover,
+    a[role="button"]:hover,
+    .ios-btn:hover {
+      transform: scale(1.03) translateZ(0);
+    }
+
+    button:active,
+    a[role="button"]:active,
+    .ios-btn:active {
+      transform: scale(0.92) translateZ(0) !important;
+      transition-duration: 0.08s !important;
+    }
+
+    .netflix-button {
+      background-color: var(--netflix-red);
+      color: white;
+      font-weight: bold;
+      padding: 0.6rem 1.6rem;
+      border-radius: 9999px;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .netflix-button:hover {
+      background-color: #f40612;
+      transform: scale(1.03);
+    }
+
+    .netflix-button:active {
+      transform: scale(0.92) !important;
+    }
+
+    .netflix-button-secondary {
+      background-color: rgba(109, 109, 110, 0.7);
+      color: white;
+      font-weight: bold;
+      padding: 0.6rem 1.6rem;
+      border-radius: 9999px;
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .netflix-button-secondary:hover {
+      background-color: rgba(109, 109, 110, 0.4);
+      transform: scale(1.03);
+    }
+
+    .netflix-button-secondary:active {
+      transform: scale(0.92) !important;
+    }
+    
+    .text-glow { text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
+
+    /* Instant Zero-Delay Ad Cleanse when Ads Free Mode or Video Player is active */
+    body.ads-free-mode [id*="container-"],
+    body.ads-free-mode [id*="adsterra"],
+    body.ads-free-mode [class*="adsterra"],
+    body.ads-free-mode [class*="monetag"],
+    body.ads-free-mode [id*="monetag"],
+    body.ads-free-mode [id*="zone_"],
+    body.ads-free-mode iframe[src*="quge5"],
+    body.ads-free-mode iframe[src*="heiressnicholasfitful"],
+    body.ads-free-mode iframe[src*="highperformanceformat"],
+    body.ads-free-mode iframe[src*="effectivecpmnetwork"],
+    body.ads-free-mode #mooflix-isolated-monetization-layer,
+    body.ads-free-mode aside[aria-label="Advertisements"],
+    body.ads-free-mode aside[aria-label="Sponsored Bottom Ad"],
+    body.ads-free-mode section[aria-label="Sponsored Banner"],
+    body.ads-free-mode div[data-ad-banner],
+    body.ads-free-mode body > div:not(#root):not(#portal-root),
+    body.player-active [id*="container-"],
+    body.player-active [id*="adsterra"],
+    body.player-active [class*="adsterra"],
+    body.player-active [class*="monetag"],
+    body.player-active [id*="monetag"],
+    body.player-active [id*="zone_"],
+    body.player-active [id*="socialbar"],
+    body.player-active [id*="asg_"],
+    body.player-active iframe[src*="quge5"],
+    body.player-active iframe[src*="heiressnicholasfitful"],
+    body.player-active iframe[src*="highperformanceformat"],
+    body.player-active iframe[src*="effectivecpmnetwork"],
+    body.player-active #mooflix-isolated-monetization-layer,
+    body.player-active aside[aria-label="Advertisements"],
+    body.player-active aside[aria-label="Sponsored Bottom Ad"],
+    body.player-active section[aria-label="Sponsored Banner"],
+    body.player-active div[data-ad-banner] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      height: 0 !important;
+      width: 0 !important;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    @keyframes hero-zoom {
+      0% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .animate-hero-zoom {
+      animation: hero-zoom 20s ease-out forwards;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @media (max-width: 768px) {
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+
+    /* Cinema Hall Audience & Happening Animations */
+    @keyframes walkerLeft {
+      0% { transform: translateX(40px); opacity: 0; }
+      15% { opacity: 0.9; }
+      85% { opacity: 0.9; }
+      100% { transform: translateX(-160px); opacity: 0; }
+    }
+    .animate-walker-left {
+      animation: walkerLeft 3.5s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+    }
+
+    @keyframes walkerRight {
+      0% { transform: translateX(-40px); opacity: 0; }
+      15% { opacity: 0.9; }
+      85% { opacity: 0.9; }
+      100% { transform: translateX(180px); opacity: 0; }
+    }
+    .animate-walker-right {
+      animation: walkerRight 3.5s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+    }
+
+    @keyframes popcornEater {
+      0%, 100% { transform: translateY(0); }
+      35% { transform: translateY(-3px) rotate(-1deg); }
+      45% { transform: translateY(-4px) rotate(1deg); }
+      55% { transform: translateY(0); }
+    }
+    .animate-popcorn-eater {
+      animation: popcornEater 4s ease-in-out infinite;
+      transform-origin: 327px 96px;
+    }
+
+    @keyframes whisperCouple {
+      0%, 100% { transform: rotate(0deg) translateX(0); }
+      30%, 60% { transform: rotate(-3deg) translateX(-5px); }
+      75% { transform: rotate(0deg) translateX(0); }
+    }
+    .animate-whisper-couple {
+      animation: whisperCouple 6s ease-in-out infinite;
+      transform-origin: 545px 96px;
+    }
+
+    @keyframes audienceSubtle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    .animate-audience-subtle {
+      animation: audienceSubtle 5s ease-in-out infinite;
+    }
+
+    /* Person standing up to stretch or let someone pass, then sitting down */
+    @keyframes audienceStandSit {
+      0%, 75%, 100% { transform: translateY(0) scaleY(1); }
+      12% { transform: translateY(-14px) scaleY(1.1); }
+      30% { transform: translateY(-16px) scaleY(1.12); }
+      48% { transform: translateY(-15px) scaleY(1.1); }
+      60% { transform: translateY(-4px) scaleY(1.02); }
+    }
+    .animate-stand-sit {
+      animation: audienceStandSit 14s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    /* Audience member shifting in their seat */
+    @keyframes audienceShift {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      25% { transform: translateX(-2.5px) rotate(-1.5deg); }
+      50% { transform: translateX(1px) rotate(0.5deg); }
+      75% { transform: translateX(2px) rotate(1.5deg); }
+    }
+    .animate-audience-shift {
+      animation: audienceShift 8s ease-in-out infinite;
+    }
+
+    /* Audience head turning to whisper / look around */
+    @keyframes audienceTurnHead {
+      0%, 100% { transform: rotate(0deg); }
+      30% { transform: rotate(-4deg) translateX(-1px); }
+      70% { transform: rotate(5deg) translateX(1px); }
+    }
+    .animate-turn-head {
+      animation: audienceTurnHead 7s ease-in-out infinite;
+      transform-origin: center center;
+    }
+
+    /* Audience member sipping drink */
+    @keyframes audienceDrinkSip {
+      0%, 65%, 100% { transform: translateY(0); }
+      20% { transform: translateY(-2px) rotate(1deg); }
+      35% { transform: translateY(-3px) rotate(-1deg); }
+      45% { transform: translateY(0); }
+    }
+    .animate-drink-sip {
+      animation: audienceDrinkSip 9s ease-in-out infinite;
+    }
+
+    /* Audience cheering / clapping motion */
+    @keyframes audienceCheer {
+      0%, 100% { transform: translateY(0) scale(1); }
+      25% { transform: translateY(-3px) scale(1.03); }
+      50% { transform: translateY(-1px) scale(1.01); }
+      75% { transform: translateY(-4px) scale(1.04); }
+    }
+    .animate-audience-cheer {
+      animation: audienceCheer 3s ease-in-out infinite;
+    }
+
+    /* Late arrival moving down row searching for seat with glowing phone */
+    @keyframes lateArrivalSearch {
+      0% { transform: translateX(-30px); opacity: 0; }
+      15% { opacity: 0.95; }
+      45% { transform: translateX(15px); }
+      75% { transform: translateX(35px); opacity: 0.95; }
+      90% { transform: translateX(45px); opacity: 0.5; }
+      100% { transform: translateX(50px); opacity: 0; }
+    }
+    .animate-late-arrival {
+      animation: lateArrivalSearch 8s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+    }
+
+    /* Aisle walker strolling down stairs */
+    @keyframes aisleStroll {
+      0% { transform: translateY(-20px) translateX(-5px); opacity: 0; }
+      10% { opacity: 0.9; }
+      80% { opacity: 0.9; }
+      100% { transform: translateY(40px) translateX(10px); opacity: 0; }
+    }
+    .animate-aisle-stroll {
+      animation: aisleStroll 6s linear infinite;
+    }
+
+    /* Staggered delay helpers */
+    .anim-delay-1s { animation-delay: 1.2s !important; }
+    .anim-delay-2s { animation-delay: 2.4s !important; }
+    .anim-delay-3s { animation-delay: 3.6s !important; }
+    .anim-delay-4s { animation-delay: 4.8s !important; }
+    .anim-delay-5s { animation-delay: 6s !important; }
+    .anim-delay-7s { animation-delay: 7.5s !important; }
+    .anim-delay-9s { animation-delay: 9s !important; }
+
+    @keyframes fadeSlideUp {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      20% { opacity: 1; transform: translateY(-20px) scale(1.1); }
+      80% { opacity: 0.9; transform: translateY(-60px) scale(1); }
+      100% { opacity: 0; transform: translateY(-90px) scale(0.9); }
+    }
+    .animate-fade-slide-up {
+      animation: fadeSlideUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Global scrollbar hiding if requested */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Mobile 60FPS Hardware Acceleration & Fluid Touch Scrolling */
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
+    body, #root {
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* High-Performance 60FPS Skeleton Shimmer */
+    @keyframes skeletonShimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .animate-skeleton-shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 30%, 
+        rgba(255, 255, 255, 0.12) 50%, 
+        rgba(255, 255, 255, 0.05) 70%, 
+        transparent 100%
+      );
+      animation: skeletonShimmer 1.8s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 5;
+    }
+  </style>
+
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="root">
+    <!-- Static Semantic Crawl Payload for Search Engine Indexation (Googlebot, Bingbot, Yandex) -->
+    <div style="background-color: #050508; color: #ffffff; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      <!-- Header / Nav -->
+      <header style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #ffffff;">
+            <span style="color: #e50914; font-weight: 900; font-size: 26px; letter-spacing: -1px;">MOOFLIX</span>
+          </a>
+        </div>
+        <nav style="display: flex; gap: 20px; font-size: 14px; font-weight: 600;">
+          <a href="/" style="color: #e50914; text-decoration: none;">Home</a>
+          <a href="/movies" style="color: #d1d5db; text-decoration: none;">Movies</a>
+          <a href="/series" style="color: #d1d5db; text-decoration: none;">TV Series</a>
+          <a href="/anime" style="color: #d1d5db; text-decoration: none;">Anime</a>
+          <a href="/sports" style="color: #d1d5db; text-decoration: none;">Live Sports</a>
+          <a href="/upcoming" style="color: #d1d5db; text-decoration: none;">Upcoming</a>
+          <a href="/search" style="color: #d1d5db; text-decoration: none;">Search</a>
+        </nav>
+      </header>
+
+      <!-- Main SEO Content Section -->
+      <main style="max-width: 1200px; margin: 0 auto; padding: 48px 24px;">
+        <article>
+          <header>
+            <p style="color: #e50914; font-weight: 800; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Official Streaming Platform • mooflix.online</p>
+            <h1 style="font-size: 38px; font-weight: 900; line-height: 1.15; margin: 0 0 16px 0; letter-spacing: -0.02em;">MooFlix - Watch Free Movies &amp; TV Series Online in Ultra HD</h1>
+            <p style="font-size: 18px; color: #9ca3af; line-height: 1.6; margin-bottom: 24px;">
+              Welcome to <strong>MooFlix</strong> (<strong>mooflix.online</strong>), your premiere destination for streaming thousands of free blockbuster movies, trending web series, and popular anime in full HD and Ultra HD 4K. Enjoy instant playback with zero subscription fees, no credit cards, and multi-server redundancy.
+            </p>
+          </header>
+
+          <!-- AI Overview Fact Card -->
+          <section style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; margin-bottom: 36px;">
+            <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-top: 0; margin-bottom: 10px;">What is MooFlix (mooflix.online)?</h2>
+            <p style="font-size: 15px; color: #d1d5db; line-height: 1.7; margin: 0;">
+              <strong>MooFlix</strong> (official URL: <strong>https://mooflix.online</strong>) is a high-speed free online entertainment discovery and streaming web application. It indexes thousands of Hollywood, Bollywood, South Indian, and international cinema titles alongside popular Japanese anime and television shows. Built with responsive PWA technology and multi-CDN architecture, MooFlix enables seamless, zero-buffering viewing across smartphones, tablets, computers, and Smart TVs without paywalls or user sign-ups.
+            </p>
+          </section>
+
+          <!-- Core Categories Grid -->
+          <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 48px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px;">
+              <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; color: #ffffff;">🎬 Hollywood &amp; Global Blockbusters</h2>
+              <p style="font-size: 14px; color: #9ca3af; line-height: 1.5;">Watch the latest Hollywood releases, superhero franchises, sci-fi adventures, and Oscar-winning dramas in crystal-clear 1080p and 4K resolution.</p>
+              <a href="/movies" style="color: #e50914; font-size: 13px; font-weight: 700; text-decoration: none;">Browse Free Movies &rarr;</a>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px;">
+              <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; color: #ffffff;">📺 Bingeworthy TV Series</h2>
+              <p style="font-size: 14px; color: #9ca3af; line-height: 1.5;">Stream complete seasons and latest episodes of top TV shows, crime thrillers, mysteries, fantasy sagas, and family sitcoms.</p>
+              <a href="/series" style="color: #e50914; font-size: 13px; font-weight: 700; text-decoration: none;">Browse TV Series &rarr;</a>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px;">
+              <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; color: #ffffff;">⚡ Anime &amp; Animation</h2>
+              <p style="font-size: 14px; color: #9ca3af; line-height: 1.5;">Access popular Japanese anime series, shonen hits, isekai adventures, and animated blockbusters with original audio and English subtitles.</p>
+              <a href="/anime" style="color: #e50914; font-size: 13px; font-weight: 700; text-decoration: none;">Explore Anime Hub &rarr;</a>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px;">
+              <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; color: #ffffff;">🌟 Upcoming Releases &amp; News</h2>
+              <p style="font-size: 14px; color: #9ca3af; line-height: 1.5;">Stay ahead with release dates, official trailers, cinema industry news, and editorial reviews for upcoming theatrical &amp; OTT movies.</p>
+              <a href="/upcoming" style="color: #e50914; font-size: 13px; font-weight: 700; text-decoration: none;">View Upcoming Cinema &rarr;</a>
+            </div>
+          </section>
+
+          <!-- Featured Cinema & Streaming Guides (Blogs) for Immediate Search Engine Crawl Depth -->
+          <section style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; margin-bottom: 48px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <h2 style="font-size: 24px; font-weight: 800; margin: 0; color: #ffffff;">📰 Featured Cinema Guides &amp; Streaming Editorial</h2>
+                <p style="font-size: 14px; color: #9ca3af; margin: 4px 0 0 0;">Latest authoritative streaming comparisons, release calendars, and tech guides.</p>
+              </div>
+              <a href="/blogs" style="color: #e50914; font-weight: 700; font-size: 14px; text-decoration: none;">View All Guides &rarr;</a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Streaming Guide</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/best-free-movie-streaming-sites-2026" style="color: #ffffff; text-decoration: none;">Best Free Movie Streaming Sites in 2026 (Zero Buffer, No Signup)</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">Comprehensive breakdown of high-speed free movie streaming portals and features.</p>
+              </div>
+
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Global Access</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/best-free-movie-streaming-sites-no-sign-up-2026-usa-uk-canada" style="color: #ffffff; text-decoration: none;">Free Streaming Sites No Sign Up 2026 (USA, UK, Canada &amp; Australia)</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">Verified zero-registration platforms across North America and Europe.</p>
+              </div>
+
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Platform Comparison</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/top-flix-streaming-sites-mojflix-netflix-bollyflix-alternatives-2026" style="color: #ffffff; text-decoration: none;">Top Flix Sites 2026: Mojflix, Netflix, Bollyflix Alternatives</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">Why MooFlix is the premier replacement for famous Flix streaming services.</p>
+              </div>
+
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Anime</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/best-free-anime-streaming-sites-sub-dub-2026" style="color: #ffffff; text-decoration: none;">Best Free Anime Streaming Sites Sub &amp; Dub 2026</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">Top places to stream Japanese anime in English sub and dub.</p>
+              </div>
+
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Superheroes &amp; Action</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/watch-marvel-dc-superhero-movies-online-free-4k-2026" style="color: #ffffff; text-decoration: none;">Watch Marvel &amp; DC Superhero Movies Online Free 4K (2026 Calendar)</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">Marvel Phase 6 and DC Universe upcoming cinematic release schedules.</p>
+              </div>
+
+              <div style="padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+                <span style="font-size: 11px; color: #e50914; font-weight: 700; text-transform: uppercase;">Dual Audio &amp; Bollywood</span>
+                <h3 style="font-size: 15px; font-weight: 700; margin: 6px 0 8px 0; line-height: 1.35;">
+                  <a href="/blog/dual-audio-movies-hindi-english-free-4k-stream-guide-2026" style="color: #ffffff; text-decoration: none;">Dual Audio Hindi-English Movies 4K Ultra HD Free Stream Guide</a>
+                </h3>
+                <p style="font-size: 12px; color: #9ca3af; margin: 0;">How to stream multi-language audio tracks with high-bitrate surround sound.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Top Trending Blockbuster Movies Direct Crawl Links -->
+          <section style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; margin-bottom: 48px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <h2 style="font-size: 24px; font-weight: 800; margin: 0; color: #ffffff;">🔥 Trending Blockbuster Movies &amp; Hits</h2>
+                <p style="font-size: 14px; color: #9ca3af; margin: 4px 0 0 0;">Watch full movies in Ultra HD 4K without subscription.</p>
+              </div>
+              <a href="/movies" style="color: #e50914; font-weight: 700; font-size: 14px; text-decoration: none;">Browse All Movies &rarr;</a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; font-size: 13px;">
+              <a href="/movie/1003596" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Avengers: Doomsday (2026)</a>
+              <a href="/movie/1007757" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ The Batman Part II (2026)</a>
+              <a href="/movie/101299" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ The Hunger Games: Ballad (2023)</a>
+              <a href="/movie/1032863" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Godzilla x Kong: New Empire</a>
+              <a href="/movie/1058424" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Kraven the Hunter (2024)</a>
+              <a href="/movie/1083381" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Deadpool &amp; Wolverine (2024)</a>
+              <a href="/movie/1084242" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Alien: Romulus (2024)</a>
+              <a href="/movie/1101412" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Dune: Part Two (2024)</a>
+              <a href="/movie/1108427" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Furiosa: A Mad Max Saga</a>
+              <a href="/movie/1110034" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Kingdom of the Planet of the Apes</a>
+              <a href="/movie/1130948" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Inside Out 2 (2024)</a>
+              <a href="/movie/1181678" style="color: #d1d5db; text-decoration: none; padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: block;">▶ Gladiator II (2024)</a>
+            </div>
+          </section>
+
+          <!-- Why Choose MooFlix -->
+          <section style="background: rgba(229,9,20,0.04); border: 1px solid rgba(229,9,20,0.15); border-radius: 20px; padding: 32px; margin-bottom: 48px;">
+            <h2 style="font-size: 24px; font-weight: 800; margin-top: 0; margin-bottom: 16px;">Why Stream on MooFlix (mooflix.online)?</h2>
+            <ul style="color: #d1d5db; font-size: 15px; line-height: 1.8; padding-left: 20px; margin: 0;">
+              <li><strong>100% Free Forever:</strong> No hidden subscriptions, no credit card prompts, and no paywalls.</li>
+              <li><strong>Ultra HD Quality:</strong> High-bitrate 1080p and 4K video playback with adaptive bitrate streaming.</li>
+              <li><strong>Multiple Fast Relays:</strong> Instant multi-server switching guarantees zero buffering and high uptime.</li>
+              <li><strong>Cross-Platform Compatibility:</strong> Seamlessly works on iPhone, Android, iPad, PC, Mac, and Smart TV browsers.</li>
+              <li><strong>Personal Watchlist &amp; Continue Watching:</strong> Keep track of your favorite titles locally on your browser.</li>
+            </ul>
+          </section>
+
+          <!-- FAQ Section for Google Search Snippets -->
+          <section style="margin-bottom: 48px;">
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 20px;">Frequently Asked Questions (FAQ)</h2>
+            <div style="space-y: 16px;">
+              <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">What is MooFlix?</h3>
+                <p style="font-size: 14px; color: #9ca3af; line-height: 1.6; margin: 0;">MooFlix (available at mooflix.online) is an all-in-one free movie and TV show streaming catalog offering cinema lovers instant access to Hollywood, Bollywood, anime, and international entertainment.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">Is an account or credit card required on MooFlix?</h3>
+                <p style="font-size: 14px; color: #9ca3af; line-height: 1.6; margin: 0;">No. MooFlix does not require user registration, passwords, or payment information. Simply open mooflix.online, select any movie or episode, and start watching immediately.</p>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <h3 style="font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">How can I watch movies on my smartphone or Smart TV?</h3>
+                <p style="font-size: 14px; color: #9ca3af; line-height: 1.6; margin: 0;">MooFlix is fully responsive and supports Progressive Web App (PWA) installation. Open mooflix.online in Chrome, Safari, or Edge, and click "Install App" or "Add to Home Screen" for a full-screen app experience.</p>
+              </div>
+            </div>
+          </section>
+        </article>
+      </main>
+
+      <!-- Footer -->
+      <footer style="border-top: 1px solid rgba(255,255,255,0.08); padding: 32px 24px; text-align: center; color: #6b7280; font-size: 13px;">
+        <p style="margin-bottom: 12px;">&copy; 2026 MooFlix (mooflix.online). All rights reserved.</p>
+        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+          <a href="/about" style="color: #9ca3af; text-decoration: none;">About</a>
+          <a href="/dmca" style="color: #9ca3af; text-decoration: none;">DMCA</a>
+          <a href="/privacy" style="color: #9ca3af; text-decoration: none;">Privacy Policy</a>
+          <a href="/terms" style="color: #9ca3af; text-decoration: none;">Terms of Service</a>
+          <a href="/contact" style="color: #9ca3af; text-decoration: none;">Contact</a>
+          <a href="/blogs" style="color: #9ca3af; text-decoration: none;">Cinema Blogs</a>
+          <a href="/sitemap" style="color: #9ca3af; text-decoration: none;">HTML Sitemap</a>
+          <a href="/sitemap.xml" target="_blank" style="color: #9ca3af; text-decoration: none;">Sitemap XML</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script type="module" src="/index.tsx"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</body>
+</html>

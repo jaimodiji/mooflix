@@ -1,0 +1,6 @@
+{
+  "name": "MooFlix",
+  "description": "Stream trending movies, web series, anime, and live sports on MooFlix in Ultra HD 4K with zero ads and automatic multi-server player failover.",
+  "requestFramePermissions": ["autoplay", "encrypted-media", "fullscreen", "picture-in-picture", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
